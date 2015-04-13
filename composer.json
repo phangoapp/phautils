@@ -1,0 +1,21 @@
+{
+    "name": "phangoapp/phautils",
+    "description": "Utilities for format texts and other things",
+    "require-dev": {
+        "phpunit/phpunit": "~4.8@dev"
+    },
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Antonio de la Rosa",
+            "email": "webmaster@web-t-sys.com"
+        }
+    ],
+    "minimum-stability": "dev-master",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "PhaUtils\\": "src"
+        }
+    }
+}
