@@ -61,6 +61,94 @@ class Utils {
 
 	}
 	
+	/**
+	* This function is used to clean up the text of undesirable elements
+	* @param string $text Text to clean
+	* @param string $br Boolean variable used for control if you want br tags or \n symbon on input text
+	*/
+
+	static public function form_text( $text ,$br=1)
+	{
+
+	settype( $text, "string" );
+
+	$text = trim( $text );
+
+	$arr_tags=array('/</', '/>/', '/"/', '/\'/', "/  /");
+	$arr_entities=array('&lt;', '&gt;', '&quot;', '&#39;', '&nbsp;');
+		
+	if($br==1)
+	{
+
+		$text = preg_replace($arr_tags, $arr_entities, $text);
+		
+		$arr_text = explode("\n\r\n", $text);
+
+		$c=count($arr_text);
+
+		if($c>1)
+		{
+			for($x=0;$x<$c;$x++)
+			{
+
+				$arr_text[$x]='<p>'.trim($arr_text[$x]).'&nbsp;</p>';
+
+			}
+		}
+
+
+		$text=implode('', $arr_text);
+
+		$arr_text = explode("\n", $text);
+
+		$c=count($arr_text);
+
+		if($c>1)
+		{
+			for($x=0;$x<$c;$x++)
+			{
+
+				$arr_text[$x]=trim($arr_text[$x]).'<br />';
+
+			}
+		}
+
+		$text=implode('', $arr_text);
+		
+	}
+	
+		
+	$text = Utils::make_slashes( $text );
+	
+	return $text;
+	
+	}
+	
+	/**
+	* Function used for add slashes from _POST and _GET variables.
+	*
+	*
+	* @param string $string String for add slashes
+	*/
+
+	static public function make_slashes( $string )
+	{
+		return addslashes( $string );
+	} 
+
+	/**
+	* Function used for strip slashes from _POST and _GET variables.
+	*
+	*
+	* @param string $string String for strip slashes
+	*/
+
+	static public function unmake_slashes( $string )
+	{
+		return stripslashes( $string );
+	}
+
+	
 }
 
 ?>
