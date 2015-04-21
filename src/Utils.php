@@ -1,6 +1,6 @@
 <?php
 
-namespace PhaUtils;
+namespace PhangoApp\PhaUtils;
 
 /**
 * Class with text utilities and more
