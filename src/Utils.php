@@ -8,6 +8,8 @@ namespace PhangoApp\PhaUtils;
 
 class Utils {
 
+	static public $textbb_type='';
+
 	/**
 	* Function for normalize texts for use on urls or other things...
 	*
@@ -147,7 +149,240 @@ class Utils {
 	{
 		return stripslashes( $string );
 	}
+	
+	/**
+	* This function is used to clean up the text of undesirable html tags
+	*
+	* @param string $text Input text for clean undesirable html tags
+	* @param array $allowedtags An array with allow tags on the text.
+	*/
 
+	public function form_text_html( $text , $allowedtags=array())
+	{
+
+		settype( $text, "string" );
+		
+		//If no html editor \r\n=<p>
+
+		/*$text=preg_replace("/<br.*?>/", "\n", $text);*/
+		
+		if(Utils::$textbb_type!='')
+		{
+			
+			$text=str_replace("\r", '', $text);
+			$text=str_replace("\n", '', $text);
+
+		}
+		else
+		{
+
+			//Make <p>
+
+			$arr_text = explode("\n\r\n", $text);
+
+			$c=count($arr_text);
+
+			if($c>1)
+			{
+				for($x=0;$x<$c;$x++)
+				{
+
+					$arr_text[$x]='<p>'.trim($arr_text[$x]).'&nbsp;</p>';
+
+				}
+			}
+
+
+			$text=implode('', $arr_text);
+
+			$arr_text = explode("\n", $text);
+
+			$c=count($arr_text);
+
+			if($c>1)
+			{
+				for($x=0;$x<$c;$x++)
+				{
+
+					$arr_text[$x]=trim($arr_text[$x]).'<br />';
+
+				}
+			}
+
+			$text=implode('', $arr_text);
+
+		}
+		/*echo htmlentities($text);
+		die;*/
+			
+		//Check tags
+
+		//Bug : tags deleted ocuppied space.
+
+		//First strip_tags
+
+		$text = trim( $text );
+
+		//Trim html
+
+		$text=str_replace('&nbsp;', ' ', $text);
+
+		while(preg_match('/<p>\s+<\/p>$/s', $text))
+		{
+
+			$text=preg_replace('/<p>\s+<\/p>$/s', '', $text);
+		
+		}
+
+		//Now clean undesirable html tags
+		
+		if(count($allowedtags)>0)
+		{
+
+			$text=strip_tags($text, '<'.implode('><', array_keys($allowedtags)).'>' );
+			
+			$arr_tags=array('/</', '/>/', '/"/', '/\'/', "/  /");
+			$arr_entities=array('&lt;', '&gt;', '&quot;', '&#39;', '&nbsp;');
+			
+			$text=preg_replace($arr_tags, $arr_entities, $text);
+			
+			$text=str_replace('  ', '&nbsp;&nbsp;', $text);
+			
+			$arr_tags_clean=array();
+			$arr_tags_empty_clean=array();
+
+			//Close tags. 
+
+			//Filter tags
+
+			$final_allowedtags=array();
+			
+			foreach($allowedtags as $tag => $parameters)
+			{
+				//If mark how recursive, make a loop
+
+				settype($parameters['recursive'], 'integer');
+
+				$c_count=0;
+				$x=0;
+
+				if($parameters['recursive']==1)
+				{
+
+					$c_count = substr_count( $text, '&lt;'.$tag.'&gt;');
+
+				}
+				
+				for($x=0;$x<=$c_count;$x++)
+				{
+
+					$text=preg_replace($parameters['pattern'], $parameters['replace'], $text);
+					
+				}
+				
+				$pos_=strpos($tag, '_');
+				
+				if($pos_!==false)
+				{
+
+					$tag=substr($tag, 0, $pos_);
+
+				}
+				
+				$final_allowedtags[]=$tag.'_tmp';
+
+				//Destroy open tags.
+				
+				$arr_tags_clean[]='/&lt;(.*?)'.$tag.'(.*?)&gt;/';
+				
+				$arr_tags_empty_clean[]='';
+				$arr_tags_empty_clean[]='';
+
+			}
+			
+			$text=preg_replace($arr_tags_clean, $arr_tags_empty_clean, $text);
+		}
+
+		//With clean code, modify <tag_tmp
+		
+		$text=str_replace('_tmp', '', $text);
+		
+		//Close tags
+		
+		$text = unmake_slashes( $text );
+		
+		return $text;
+
+	}
+	
+	/**
+	* function for clean newlines
+	* 
+	* @param string $text Text to clean.
+	*/
+
+	public function unform_text( $text )
+	{
+
+		$text = preg_replace( "/<p>(.*?)<\/p>/s", "$1\n\r\n", $text );
+		$text = str_replace( "<br />", "", $text );
+
+		return $text;
+
+	}
+	
+	
+	/**
+	* A function for generate a rand token used on sessions.
+	*
+	*/
+
+	public function get_token()
+	{
+
+		$rand_prefix=Utils::generate_random_password();
+		
+		return sha1( uniqid($rand_prefix, true) );
+
+	}
+	
+	/**
+	* Function used for generate a simple random password. Have two random process for shuffle the string.
+	*
+	* @param string $length_pass A variable used for set the character's length the password. More length, password more secure
+	*
+	*/
+
+	public function generate_random_password($length_pass=14)
+	{
+
+		$x=0;
+		$z=0;
+
+		$abc = array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '*', '+', '!', '-', '_', '@', '%', '&');
+		
+		shuffle($abc);
+		
+		$c_chars=count($abc)-1;
+
+		$password_final='';
+
+		for($x=0;$x<$length_pass;$x++)
+		{
+
+			$z=mt_rand(0, $c_chars);
+			
+			$password_final.=$abc[$z];
+
+		}
+		
+		$password_final=str_shuffle($password_final);
+
+		return $password_final;
+
+	}
+	
+	
 	
 }
 
