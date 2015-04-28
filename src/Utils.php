@@ -157,7 +157,7 @@ class Utils {
 	* @param array $allowedtags An array with allow tags on the text.
 	*/
 
-	public function form_text_html( $text , $allowedtags=array())
+	static public function form_text_html( $text , $allowedtags=array())
 	{
 
 		settype( $text, "string" );
@@ -309,7 +309,7 @@ class Utils {
 		
 		//Close tags
 		
-		$text = unmake_slashes( $text );
+		$text = Utils::unmake_slashes( $text );
 		
 		return $text;
 
@@ -321,7 +321,7 @@ class Utils {
 	* @param string $text Text to clean.
 	*/
 
-	public function unform_text( $text )
+	static public function unform_text( $text )
 	{
 
 		$text = preg_replace( "/<p>(.*?)<\/p>/s", "$1\n\r\n", $text );
@@ -337,7 +337,7 @@ class Utils {
 	*
 	*/
 
-	public function get_token()
+	static public function get_token()
 	{
 
 		$rand_prefix=Utils::generate_random_password();
@@ -353,7 +353,7 @@ class Utils {
 	*
 	*/
 
-	public function generate_random_password($length_pass=14)
+	static public function generate_random_password($length_pass=14)
 	{
 
 		$x=0;
