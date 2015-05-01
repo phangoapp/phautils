@@ -337,12 +337,12 @@ class Utils {
 	*
 	*/
 
-	static public function get_token()
+	static public function get_token($length_token=24)
 	{
 
-		$rand_prefix=Utils::generate_random_password();
+		$rand_prefix=Utils::generate_random_password($length_token);
 		
-		return sha1( uniqid($rand_prefix, true) );
+		return $rand_prefix;
 
 	}
 	
