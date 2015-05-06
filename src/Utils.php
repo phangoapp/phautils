@@ -2,6 +2,8 @@
 
 namespace PhangoApp\PhaUtils;
 
+use PhangoApp\PhaRouter\Routes;
+
 /**
 * Class with text utilities and more
 */
@@ -9,6 +11,12 @@ namespace PhangoApp\PhaUtils;
 class Utils {
 
 	static public $textbb_type='';
+	
+	/**
+	* An array for cache loaded libraries
+	*/
+	
+	static public $cache_libraries=array();
 
 	/**
 	* Function for normalize texts for use on urls or other things...
@@ -383,7 +391,89 @@ class Utils {
 	}
 	
 	
-	
+	/**
+	* Load libraries, well, simply an elegant include
+	*
+	* Very important function used for load the functions and method necessaries on your projects. Is simple, you create a file php and put in a libraries folder. Use the name without php used in file and magically the file is loaded. You can use this function in many places, phango use a little cache for know who file is loaded.
+	*
+	* @param string $names The name of php file without .php extension. If you want specific many libraries you can use an array 
+	* @param string $path The base path where search the library if is not in standard path. By default the path is on Utils::$base_path/libraries/ or Utils::$base_path/modules/$module/libraries/
+	*
+	*/ 
+
+	static public function load_libraries($names, $path='')
+	{
+		
+		if(gettype($names)!='array')
+		{
+			
+			$arr_names[]=$names;
+
+		}
+		else
+		{
+		
+			$arr_names=&$names;
+		
+		}
+
+		if($path=='')
+		{
+
+			$path=Routes::$base_path.'/modules/'.Router::$app.'/libraries/';
+
+		}
+		else
+		{
+		
+			$path=Routes::$base_path.'/'.$path.'/';
+		
+		}
+		
+		foreach($arr_names as $library) 
+		{
+			
+
+			if(!isset(Utils::$cache_libraries[$library]))
+			{
+			
+				$old_path=$path;
+				
+				if(is_file($path.'/'.$library.'.php'))
+				{
+					include($path.$library.'.php');
+					
+					Utils::$cache_libraries[$library]=1;
+					
+				}
+				else
+				{
+					//Libraries path
+					$path=Routes::$base_path.'/libraries/';
+					
+					if(!include($path.$library.'.php')) 
+					{
+				
+						
+						die();
+						
+					}
+					else
+					{
+
+						Utils::$cache_libraries[$library]=1;
+
+					}
+									
+				}
+
+			}
+
+		}
+
+		return true;
+
+	}
 }
 
 ?>
