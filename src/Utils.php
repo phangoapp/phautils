@@ -420,7 +420,7 @@ class Utils {
 		if($path=='')
 		{
 
-			$path=Routes::$base_path.'/modules/'.Router::$app.'/libraries/';
+			$path=Routes::$base_path.'/modules/'.Routes::$app.'/libraries/';
 
 		}
 		else
@@ -449,6 +449,7 @@ class Utils {
 				else
 				{
 					//Libraries path
+					
 					$path=Routes::$base_path.'/libraries/';
 					
 					if(!include($path.$library.'.php')) 
@@ -474,6 +475,74 @@ class Utils {
 		return true;
 
 	}
+	
+	/**
+	*  Simple function for replate real quotes for quote html entities.
+	* 
+	* @param string $text Text to clean.
+	*/
+
+	static public function replace_quote_text( $text )
+	{
+
+		$text = str_replace( "\"", "&quot;", $text );
+
+		return $text;
+
+	}
+	
+	/**
+	* Internal function for set array values without keys inside $array_strip
+	* 
+	* @param array $array_strip The array with key values for set
+	* @param array $array_source The array that i want fill with default values 
+	*
+	*/
+
+	static public function filter_fields_array($array_strip, $array_source)
+	{
+
+		$array_final=array();
+		
+		if(count($array_strip)>0)
+		{
+			foreach($array_strip as $field_strip)
+			{
+
+				$array_final[$field_strip]=@$array_source[$field_strip];
+
+			}
+
+			return $array_final;
+
+		}
+		else
+		{
+		
+			return $array_source;
+		
+		}
+	}
+	
+	/**
+	* Function used for show on stdout a csrf_token used by POST phango controllers for check if is a real POST from phango.
+	*
+	*/
+
+	static public function set_csrf_key()
+	{
+	
+		if(!isset($_SESSION['csrf_token']))
+		{
+
+			$_SESSION['csrf_token']=Utils::get_token();
+
+		}
+
+		echo "\n".HiddenForm('csrf_token', '', $_SESSION['csrf_token'])."\n";
+
+	}
+
 }
 
 ?>
