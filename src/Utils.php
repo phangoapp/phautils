@@ -542,6 +542,27 @@ class Utils {
 		echo "\n".HiddenForm('csrf_token', '', $_SESSION['csrf_token'])."\n";
 
 	}
+	
+	/**
+	* Function for load config for modules.
+	*
+	*
+	* @param $module Name of the module
+	* @param $name_config Name of the config file, optional. Normally load config.php file on folder config.
+	*/
+
+	static public function load_config($module, $name_config='config_module')
+	{
+
+		//load_libraries(array($name_config), PhangoVar::$base_path.'/modules/'.$module.'/config/');
+		
+		if(is_file(Routes::$base_path.'/modules/'.$module.'/config/'.$name_config.'.php'))
+		{
+			include(Routes::$base_path.'/modules/'.$module.'/config/'.$name_config.'.php');
+		}
+		
+	}
+
 
 }
 
