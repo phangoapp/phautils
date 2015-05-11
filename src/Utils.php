@@ -12,6 +12,8 @@ class Utils {
 
 	static public $textbb_type='';
 	
+	static public $begin_page=0;
+	
 	/**
 	* An array for cache loaded libraries
 	*/
