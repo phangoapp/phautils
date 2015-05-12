@@ -9,10 +9,6 @@ use PhangoApp\PhaRouter\Routes;
 */
 
 class Utils {
-
-	static public $textbb_type='';
-	
-	static public $begin_page=0;
 	
 	/**
 	* An array for cache loaded libraries
@@ -176,7 +172,7 @@ class Utils {
 
 		/*$text=preg_replace("/<br.*?>/", "\n", $text);*/
 		
-		if(Utils::$textbb_type!='')
+		if(PhangoVar::$textbb_type!='')
 		{
 			
 			$text=str_replace("\r", '', $text);
