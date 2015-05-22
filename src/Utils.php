@@ -15,6 +15,8 @@ class Utils {
 	*/
 	
 	static public $cache_libraries=array();
+	
+	static public $textbb_type='';
 
 	/**
 	* Function for normalize texts for use on urls or other things...
@@ -172,7 +174,7 @@ class Utils {
 
 		/*$text=preg_replace("/<br.*?>/", "\n", $text);*/
 		
-		if(PhangoVar::$textbb_type!='')
+		if(Utils::$textbb_type!='')
 		{
 			
 			$text=str_replace("\r", '', $text);
