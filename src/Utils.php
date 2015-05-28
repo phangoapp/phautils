@@ -423,12 +423,13 @@ class Utils {
 			$path=Routes::$base_path.'/modules/'.Routes::$app.'/libraries/';
 
 		}
-		else
+		/*else
 		{
-		
+			
 			$path=Routes::$base_path.'/'.$path.'/';
 		
-		}
+		}*/
+		
 		
 		foreach($arr_names as $library) 
 		{
