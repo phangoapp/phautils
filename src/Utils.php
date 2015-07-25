@@ -16,6 +16,8 @@ class Utils {
 	
 	static public $cache_libraries=array();
 	
+	static public $cache_config=array();
+	
 	static public $textbb_type='';
 
 	/**
@@ -557,9 +559,50 @@ class Utils {
 
 		//load_libraries(array($name_config), PhangoVar::$base_path.'/modules/'.$module.'/config/');
 		
-		if(is_file(Routes::$base_path.'/modules/'.$module.'/config/'.$name_config.'.php'))
+		$file=Routes::$base_path.'/modules/'.$module.'/config/'.$name_config.'.php';
+		
+		if(is_file($file) && !isset(Utils::$cache_config[$file]))
 		{
-			include(Routes::$base_path.'/modules/'.$module.'/config/'.$name_config.'.php');
+			include($file);
+			
+			Utils::$cache_config[$file]=1;
+		}
+		
+	}
+	
+	/**
+	* Function for reload config for modules.
+	*
+	* @warning WARNING, only use this method only if you don't have any alternative
+	*
+	* @param $module Name of the module
+	* @param $name_config Name of the config file, optional. Normally load config.php file on folder config.
+	*/
+
+	static public function reload_config($module, $name_config='config_module')
+	{
+
+		//load_libraries(array($name_config), PhangoVar::$base_path.'/modules/'.$module.'/config/');
+		
+		$file=Routes::$base_path.'/modules/'.$module.'/config/'.$name_config.'.php';
+		
+		if(is_file($file))
+		{
+			//include(Routes::$base_path.'/modules/'.$module.'/config/'.$name_config.'.php');
+			
+			$cont_file_config=file_get_contents($file);
+			
+			$cont_file_config=str_replace('<?php', '', $cont_file_config);
+			
+			$cont_file_config=str_replace('?>', '', $cont_file_config);
+			
+			if(eval($cont_file_config)===FALSE)
+			{
+			
+				throw new \Exception('Error: cannot reload the config file: '.$file);
+			
+			}
+			
 		}
 		
 	}
