@@ -4,6 +4,8 @@
 * A simple class with utils for the admin.
 */
 
+namespace PhangoApp\PhaUtils;
+
 use PhangoApp\PhaRoutes\Routes;
 
 class AdminUtils {
