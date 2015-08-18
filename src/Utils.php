@@ -400,7 +400,7 @@ class Utils {
 	*
 	* @param string $names The name of php file without .php extension. If you want specific many libraries you can use an array 
 	* @param string $path The base path where search the library if is not in standard path. By default the path is on Utils::$base_path/libraries/ or Utils::$base_path/modules/$module/libraries/
-	*
+	* @deprecated Use namespaces and composer instead.
 	*/ 
 
 	static public function load_libraries($names, $path='')
@@ -550,10 +550,27 @@ class Utils {
 	* Function for load config for modules.
 	*
 	*
-	* @param $module Name of the module
 	* @param $name_config Name of the config file, optional. Normally load config.php file on folder config.
+	* @param $path Path where search the config.
 	*/
+	
+	static public function load_config($name_config, $path="./settings")
+    {
 
+        //load_libraries(array($name_config), PhangoVar::$base_path.'/modules/'.$module.'/config/');
+        
+        $file=$path.'/'.$name_config.'.php';
+        
+        if(is_file($file) && !isset(Utils::$cache_config[$file]))
+        {
+            include($file);
+            
+            Utils::$cache_config[$file]=1;
+        }
+        
+    }
+	
+    /*
 	static public function load_config($module, $name_config='config_module')
 	{
 
@@ -569,26 +586,26 @@ class Utils {
 		}
 		
 	}
+	*/
 	
 	/**
-	* Function for reload config for modules.
+	* Function for reload config.
 	*
 	* @warning WARNING, only use this method only if you don't have any alternative
 	*
 	* @param $module Name of the module
 	* @param $name_config Name of the config file, optional. Normally load config.php file on folder config.
 	*/
-
-	static public function reload_config($module, $name_config='config_module')
+    
+	static public function reload_config($name_config, $path="./settings")
 	{
 
 		//load_libraries(array($name_config), PhangoVar::$base_path.'/modules/'.$module.'/config/');
 		
-		$file=Routes::$base_path.'/modules/'.$module.'/config/'.$name_config.'.php';
+		$file=$path.'/'.$name_config.'.php';
 		
 		if(is_file($file))
 		{
-			//include(Routes::$base_path.'/modules/'.$module.'/config/'.$name_config.'.php');
 			
 			$cont_file_config=file_get_contents($file);
 			
@@ -606,7 +623,7 @@ class Utils {
 		}
 		
 	}
-
+    
 
 }
 
