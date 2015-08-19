@@ -542,7 +542,7 @@ class Utils {
 
 		}
 
-		echo "\n".HiddenForm('csrf_token', '', $_SESSION['csrf_token'])."\n";
+		echo "\n".\PhangoApp\PhaModels\CoreForms::HiddenForm('csrf_token', '', $_SESSION['csrf_token'])."\n";
 
 	}
 	
