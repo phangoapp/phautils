@@ -9,13 +9,15 @@
 *
 */
 
-namespace PhangoApp\PhaUtils\Pages;
+namespace PhangoApp\PhaUtils;
+
+use PhangoApp\PhaRouter\Routes;
 
 class Pages {
 
     static public $class='link_pages';
 
-    function show( $begin_page, $total_elements, $num_elements, $link ,$initial_num_pages=20, $variable='begin_page', $label='', $func_jscript='')
+    static public function show( $begin_page, $total_elements, $num_elements, $link ,$initial_num_pages=20, $variable='begin_page', $label='', $func_jscript='')
     {
 
         $pages='';
@@ -60,7 +62,7 @@ class Pages {
         {
             $initial_link=Routes::add_get_parameters($link, array($variable =>0));
             $middle_link=Routes::add_get_parameters($link, array($variable => ($initial_page-$num_elements).$label) );
-            $pages .= "<a class=\"".Pages::$link_pages."\" href=\"$initial_link\" onclick=\"$func_jscript\">1</a> <a class=\"link_pages\" href=\"$middle_link\">&lt;&lt;</a> ";
+            $pages .= "<a class=\"".Pages::$class."\" href=\"$initial_link\" onclick=\"$func_jscript\">1</a> <a class=\"link_pages\" href=\"$middle_link\">&lt;&lt;</a> ";
 
         }
 
@@ -74,7 +76,7 @@ class Pages {
             $middle_link=Routes::add_get_parameters($link, array($variable=>$x.$label) );
 
             $num_page=ceil($x/$num_elements)+1;
-            $arr_pages[$x]="<a class=\"".Pages::$link_pages."\" href=\"$middle_link\" onclick=\"$func_jscript\">$num_page</a> ";
+            $arr_pages[$x]="<a class=\"".Pages::$class."\" href=\"$middle_link\" onclick=\"$func_jscript\">$num_page</a> ";
             $arr_pages[$begin_page]='<span class="selected_page">'.$num_page.'</span> ';
             $pages .= $arr_pages[$x];
 
@@ -86,7 +88,7 @@ class Pages {
             $middle_link=Routes::add_get_parameters($link, array($variable=>$x.$label) );
             $last_link=Routes::add_get_parameters($link, array( $variable=>( ( $total_page*$num_elements ) - $num_elements) ) );
 
-            $pages .= "<a class=\"".Pages::$link_pages."\" href=\"$middle_link\" onclick=\"$func_jscript\">&gt;&gt;</a> <a class=\"link_pages\" href=\"$last_link\" onclick=\"$func_jscript\">".I18n::lang('common', 'last', 'Last')."</a>";
+            $pages .= "<a class=\"".Pages::$class."\" href=\"$middle_link\" onclick=\"$func_jscript\">&gt;&gt;</a> <a class=\"link_pages\" href=\"$last_link\" onclick=\"$func_jscript\">".I18n::lang('common', 'last', 'Last')."</a>";
 
         }
         
