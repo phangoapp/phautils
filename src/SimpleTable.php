@@ -9,7 +9,7 @@
 *
 */
 namespace PhangoApp\PhaUtils;
-use PhangoApp\PhaViews\View;
+use PhangoApp\PhaView\View;
 
 class SimpleTable {
 
@@ -19,7 +19,7 @@ class SimpleTable {
     * @param array $cell_sizes An Array where you can define the width or other properties of the table with the format 'key' => ' width=25%'
     */
 
-    function top_table_config($fields, $cell_sizes=array())
+    static public function top_table_config($fields, $cell_sizes=array())
     {
 
         echo View::load_view(array($fields, $cell_sizes), 'common/tables/headtable');
@@ -31,7 +31,7 @@ class SimpleTable {
     * @param array $cell_sizes An Array where you can define the width or other properties of the table with the format 'key' => ' width=25%'
     */
 
-    function middle_table_config($fill, $cell_sizes=array())
+    static public function middle_table_config($fill, $cell_sizes=array())
     {
         echo View::load_view(array($fill, $cell_sizes), 'common/tables/middletable');
     }
@@ -41,7 +41,7 @@ class SimpleTable {
     *
     */
 
-    function bottom_table_config()
+    static public function bottom_table_config()
     {
         echo View::load_view(array(), 'common/tables/bottomtable');
     }
@@ -52,7 +52,7 @@ class SimpleTable {
     * @param string $more data If you want add more data, fill this element.
     */
 
-    function pages_table($pages, $more_data='')
+    static public function pages_table($pages, $more_data='')
     {
         
         echo View::load_view(array(), 'common/tables/pagestable');
