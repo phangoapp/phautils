@@ -12,7 +12,9 @@
         }
     ],
     "minimum-stability": "dev-master",
-    "require": {},
+    "require": {
+		"ircmaxell/random-lib": "@stable"
+	},
     "autoload": {
         "psr-4": {
             "PhangoApp\\PhaUtils\\": "src"
