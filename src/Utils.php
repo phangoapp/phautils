@@ -3,6 +3,7 @@
 namespace PhangoApp\PhaUtils;
 
 use PhangoApp\PhaRouter\Routes;
+use RandomLib;
 
 /**
 * Class with text utilities and more
@@ -363,14 +364,14 @@ class Utils {
 	*
 	*/
 
-	static public function generate_random_password($length_pass=14)
+	static public function generate_random_password($length_pass=32)
 	{
 
 		$x=0;
 		$z=0;
 
 		$abc = array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '*', '+', '!', '-', '_', '@', '%', '&');
-		
+		/*
 		shuffle($abc);
 		
 		$c_chars=count($abc)-1;
@@ -386,7 +387,13 @@ class Utils {
 
 		}
 		
-		$password_final=str_shuffle($password_final);
+		$password_final=str_shuffle($password_final);*/
+		
+		$factory = new RandomLib\Factory;
+		
+		$generator=$factory->getMediumStrengthGenerator();
+		
+		$password_final = $generator->generateString($length_pass, implode('', $abc));
 
 		return $password_final;
 
@@ -591,7 +598,7 @@ class Utils {
 	/**
 	* Function for reload config.
 	*
-	* @warning WARNING, only use this method only if you don't have any alternative
+	* @warning WARNING, use this method only if you don't have any alternative
 	*
 	* @param $module Name of the module
 	* @param $name_config Name of the config file, optional. Normally load config.php file on folder config.
