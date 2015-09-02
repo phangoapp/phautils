@@ -573,6 +573,14 @@ class Utils {
             include($file);
             
             Utils::$cache_config[$file]=1;
+            
+            return true;
+        }
+        else
+        {
+        
+            return false;
+        
         }
         
     }
