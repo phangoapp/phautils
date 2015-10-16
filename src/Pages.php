@@ -11,6 +11,7 @@
 
 namespace PhangoApp\PhaUtils;
 
+use PhangoApp\PhaI18n\I18n;
 use PhangoApp\PhaRouter\Routes;
 
 class Pages {
