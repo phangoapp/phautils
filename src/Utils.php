@@ -638,6 +638,47 @@ class Utils {
 		}
 		
 	}
+	
+	/**
+	* Method for wrap words of a string
+	*
+	* @param string $text The text to wrap
+	* @param integer $num_words The number of words of returned text
+	* @param string $text_explain The string used for show that the texts is more longer
+	* @param boolean $yes_more_ever Boolean used for activate or disable $text_explain if the size of real string is the same of the new string
+	*/
+	
+	static public function wrap_words($text, $num_words, $text_explain='...', $yes_more_ever=0)
+    {
+
+        $arr_text=explode(' ', $text);
+        
+        $final_text='';
+
+        $total_num_text=count($arr_text);
+        
+        if($total_num_text<$num_words)
+        {
+
+            $num_words=$total_num_text;
+            
+            if($yes_more_ever==0)
+            {
+                $text_explain='';
+            }
+
+        }
+
+        for($x=0;$x<$num_words;$x++)
+        {
+
+            $arr_final_text[]=$arr_text[$x];
+
+        }
+
+        return implode(' ', $arr_final_text).' '.$text_explain;
+
+    }
     
 
 }
