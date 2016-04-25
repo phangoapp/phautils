@@ -177,7 +177,7 @@ class Utils {
 
 		/*$text=preg_replace("/<br.*?>/", "\n", $text);*/
 		
-		if(Utils::$textbb_type!='')
+		/*if(Utils::$textbb_type!='')
 		{
 			
 			$text=str_replace("\r", '', $text);
@@ -222,7 +222,7 @@ class Utils {
 
 			$text=implode('', $arr_text);
 
-		}
+		}*/
 		/*echo htmlentities($text);
 		die;*/
 			
@@ -236,14 +236,14 @@ class Utils {
 
 		//Trim html
 
-		$text=str_replace('&nbsp;', ' ', $text);
+		/*$text=str_replace('&nbsp;', ' ', $text);
 
 		while(preg_match('/<p>\s+<\/p>$/s', $text))
 		{
 
 			$text=preg_replace('/<p>\s+<\/p>$/s', '', $text);
 		
-		}
+		}*/
 
 		//Now clean undesirable html tags
 		
