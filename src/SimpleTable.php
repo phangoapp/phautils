@@ -26,6 +26,17 @@ class SimpleTable {
     }
 
     /**
+    * Function for make headers in a html table without create other table
+    * @param array $fill The values for any row in the table.
+    * @param array $cell_sizes An Array where you can define the width or other properties of the table with the format 'key' => ' width=25%'
+    */
+    
+    static public function header_middle_table_config($fill, $cell_sizes=array())
+    {
+        echo View::load_view(array($fill, $cell_sizes), 'common/tables/headermiddletable');
+    }
+    
+    /**
     * Function for make rows in a html table
     * @param array $fill The values for any row in the table.
     * @param array $cell_sizes An Array where you can define the width or other properties of the table with the format 'key' => ' width=25%'
