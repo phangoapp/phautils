@@ -358,7 +358,7 @@ class Utils {
 	}
 	
 	/**
-	* Function used for generate a simple random password. Have two random process for shuffle the string.
+	* Function used for generate a simple random password. Used RamdomLib from Ircmaxell
 	*
 	* @param string $length_pass A variable used for set the character's length the password. More length, password more secure
 	*
@@ -370,30 +370,13 @@ class Utils {
 		$x=0;
 		$z=0;
 
-		$abc = array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '*', '+', '!', '-', '_', '@', '#', '$');
-		/*
-		shuffle($abc);
+		$abc=array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '*', '+', '!', '-', '_', '@', '#', '$');
 		
-		$c_chars=count($abc)-1;
-
-		$password_final='';
-
-		for($x=0;$x<$length_pass;$x++)
-		{
-
-			$z=mt_rand(0, $c_chars);
-			
-			$password_final.=$abc[$z];
-
-		}
-		
-		$password_final=str_shuffle($password_final);*/
-		
-		$factory = new RandomLib\Factory;
+		$factory=new RandomLib\Factory;
 		
 		$generator=$factory->getMediumStrengthGenerator();
 		
-		$password_final = $generator->generateString($length_pass, implode('', $abc));
+		$password_final=$generator->generateString($length_pass, implode('', $abc));
 
 		return $password_final;
 
@@ -401,7 +384,7 @@ class Utils {
 	
 	
 	/**
-	* Load libraries, well, simply an elegant include
+	* Load libraries, well, simply an alternative include
 	*
 	* Very important function used for load the functions and method necessaries on your projects. Is simple, you create a file php and put in a libraries folder. Use the name without php used in file and magically the file is loaded. You can use this function in many places, phango use a little cache for know who file is loaded.
 	*
@@ -584,24 +567,6 @@ class Utils {
         }
         
     }
-	
-    /*
-	static public function load_config($module, $name_config='config_module')
-	{
-
-		//load_libraries(array($name_config), PhangoVar::$base_path.'/modules/'.$module.'/config/');
-		
-		$file=Routes::$base_path.'/modules/'.$module.'/config/'.$name_config.'.php';
-		
-		if(is_file($file) && !isset(Utils::$cache_config[$file]))
-		{
-			include($file);
-			
-			Utils::$cache_config[$file]=1;
-		}
-		
-	}
-	*/
 	
 	/**
 	* Function for reload config.
