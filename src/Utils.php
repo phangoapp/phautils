@@ -536,6 +536,25 @@ class Utils {
 
 	}
 	
+    /**
+	* Function used for show on stdout a csrf_token used by POST phango controllers for check if is a real POST from phango.
+	*
+	*/
+
+	static public function generate_csrf_key()
+	{
+	
+		if(!isset($_SESSION['csrf_token']))
+		{
+
+			$_SESSION['csrf_token']=Utils::get_token();
+
+		}
+        
+        return $_SESSION['csrf_token'];
+
+	}
+    
 	/**
 	* Function for load config for modules.
 	*
