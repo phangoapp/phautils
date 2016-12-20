@@ -522,17 +522,17 @@ class Utils {
 	*
 	*/
 
-	static public function set_csrf_key()
+	static public function set_csrf_key($name_token='csrf_token', $length_token=80)
 	{
 	
-		if(!isset($_SESSION['csrf_token']))
-		{
+		/*if(!isset($_SESSION['csrf_token']))
+		{*/
 
-			$_SESSION['csrf_token']=Utils::get_token();
+        $_SESSION['csrf_token']=Utils::get_token($length_token);
 
-		}
+		//}
 
-		echo "\n".\PhangoApp\PhaModels\CoreForms::HiddenForm('csrf_token', '', $_SESSION['csrf_token'])."\n";
+		return "\n".\PhangoApp\PhaModels\CoreForms::HiddenForm($name_token, '', $_SESSION['csrf_token'])."\n";
 
 	}
 	
@@ -541,15 +541,10 @@ class Utils {
 	*
 	*/
 
-	static public function generate_csrf_key()
+	static public function generate_csrf_key($length_token=80)
 	{
 	
-		if(!isset($_SESSION['csrf_token']))
-		{
-
-			$_SESSION['csrf_token']=Utils::get_token();
-
-		}
+        $_SESSION['csrf_token']=Utils::get_token($length_token);
         
         return $_SESSION['csrf_token'];
 
