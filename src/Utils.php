@@ -36,8 +36,24 @@ class Utils {
 	static public function slugify($text, $respect_upper=0, $replace_space='-', $replace_dot=0, $replace_barr=0)
 	{
 
-		$from='àáâãäåæçèéêëìíîïðòóôõöøùúûýþÿŕñÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÐÒÓÔÕÖØÙÚÛÝỲŸÞŔÑ¿?!¡()"|#*%,;+&$ºª<>`çÇ{}@~=^:´[]';
-		$to=  'aaaaaaaceeeeiiiidoooooouuuybyrnAAAAAACEEEEIIIIDOOOOOOUUUYYYBRN---------------------------------';
+        /*$text=iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        
+        $text=trim(preg_replace('~'.$replace_space.'+~', $replace_space, $text), '-');
+        
+        $text=preg_replace('~[^-\w]+~', '', $text);
+        echo $text."\n";
+        if (empty($text)) { 
+            
+            return ''; 
+            
+        }else {
+
+            return iconv('us-ascii//TRANSLIT', 'utf-8', $text);   // utf8_encode($text); 
+            
+        }*/
+        
+        $from=iconv('utf-8', 'us-ascii//TRANSLIT', '¿?{}@~=^:´[]#*·');
+		$to= iconv('utf-8', 'us-ascii//TRANSLIT', '---------------');
 		
 		if($replace_dot==1)
 		{
@@ -54,12 +70,16 @@ class Utils {
 			$to.="-";
 		
 		}
-
-		$text = utf8_decode(urldecode($text));    
+        
+        //utf8_decode(urldecode($text));    
 		
 		$text=trim(str_replace(" ", $replace_space, $text));
-		
-		$text = strtr($text, utf8_decode($from), $to);
+        
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        
+        $text=preg_replace('~[^-\w]+~', '', $text);
+        
+        //$text = strtr($text, $from, $to);
 		
 		//Used for pass base64 via GET that use upper, for example.
 		
@@ -70,7 +90,7 @@ class Utils {
 			
 		}
 
-		return utf8_encode($text); 
+		return $text; //iconv('us-ascii//TRANSLIT', 'utf-8', $text); 
 
 	}
 	
