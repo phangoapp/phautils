@@ -3,7 +3,7 @@
 namespace PhangoApp\PhaUtils;
 
 use PhangoApp\PhaRouter\Routes;
-use RandomLib;
+//use RandomLib;
 
 /**
 * Class with text utilities and more
@@ -391,12 +391,40 @@ class Utils {
 		$z=0;
 
 		$abc=array( 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '*', '+', '!', '-', '_', '@', '#', '$');
-		
-		$factory=new RandomLib\Factory;
-		
-		$generator=$factory->getMediumStrengthGenerator();
-		
-		$password_final=$generator->generateString($length_pass, implode('', $abc));
+        
+        $disorder_abc=[];
+        
+        //Simple disorder using random_int
+        
+        while(count($abc)>0) {
+            
+            $c_abc=count($abc);
+            
+            $num_element_move=random_int(0, $c_abc-1);
+            
+            $disorder_abc[]=$abc[$num_element_move];
+            
+            unset($abc[$num_element_move]);
+            
+            $abc=array_values($abc);
+            
+        }
+        
+        //Get randomly elements from the randomly generated array. 
+        
+        $c=count($disorder_abc);
+        
+        $password_final='';
+        
+        for($x=0;$x<$length_pass;$x++) {
+            
+            $num_element_pass=random_int(0, $c-1);
+            
+            $password_final.=$disorder_abc[$num_element_pass];
+            
+        }
+
+        //Add strange characters
 
 		return $password_final;
 
